@@ -1,0 +1,35 @@
+<div *ngIf="pdfPosts$ | async as pdfPosts; else loading">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Pdf</th>
+        <th>Title</th>
+        <th>Date</th>
+        <th>Delete</th>
+        <th>Edit PDF</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pdfPost of pdfPosts; trackBy: trackPdfPosts">
+        <td><img src="assets/img/not.png" width="20" height="20" alt="PDF icon"></td>
+        <td>{{ pdfPost.title }}</td>
+        <td>{{ pdfPost.createdAt.toMillis() | date }}</td>
+        <td>
+          <a (click)="deletePdf(pdfPost.id)">Delete</a>
+        </td>
+        <td><a [routerLink]="['/edit-pdf', pdfPost.id]">Edit PDF</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="text-center">
+    <div class="col-md-12 text-center mb-5">
+      <button class="btn btn-warning ml-3" routerLink="/">Back to Post</button>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="text-center">
+    <h3>Loading...</h3>
+  </div>
+</ng-template>

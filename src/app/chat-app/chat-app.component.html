@@ -1,0 +1,25 @@
+<div class="user-list">
+  <div class="user-item" *ngFor="let userId of allUserIds">
+    <button (click)="viewUserChat(userId)">{{ userId }}</button>
+  </div>
+</div>
+
+<div class="chat-container" *ngIf="selectedUserId">
+  <div *ngIf="userData && userData.length > 0; else noMessages">
+    <div *ngFor="let message of userData" class="chat-message">
+      <div class="message-details">
+        <span class="message-sender">{{ message.sender }}</span>
+        <span class="timestamp" *ngIf="message.timestamp">{{ message.timestamp.toDate() | date: 'shortTime' }}</span>
+      </div>
+      <p class="message-content">{{ message.message }}</p>
+    </div>
+  </div>
+  <ng-template #noMessages>
+    <p>No messages yet.</p>
+  </ng-template>
+</div>
+
+<div class="message-input" *ngIf="selectedUserId">
+  <textarea [(ngModel)]="newMessage" placeholder="Type your message here..."></textarea>
+  <button (click)="addChat()">Send</button>
+</div>

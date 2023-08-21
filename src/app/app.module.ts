@@ -24,6 +24,11 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import { SubscribersComponent } from './subscribers/subscribers.component';
 import { CommentsComponent } from './comments/comments.component';
 import { ContactComponent } from './contact/contact.component';
+import { PdfComponent } from './pdf/pdf.component';
+import { PremiumPdfComponent } from './premium-pdf/premium-pdf.component';
+import { ChatAppComponent } from './chat-app/chat-app.component';
+import {  MatAutocompleteModule, MatCardModule, MatFormFieldModule, MatInputModule, MatList, MatListItem, MatRipple, MatRippleModule, MatTab, MatTabBody, MatTabGroup, MatTabHeader, MatTabsModule } from '@angular/material';
+import { PortalModule } from '@angular/cdk/portal';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +41,13 @@ import { ContactComponent } from './contact/contact.component';
     LoginComponent,
     SubscribersComponent,
     CommentsComponent,
-    ContactComponent
+    ContactComponent,
+    PdfComponent,
+    PremiumPdfComponent,
+    ChatAppComponent,
+    MatListItem,
+    MatList,
+
   ],
   imports: [
     BrowserModule,
@@ -50,7 +61,14 @@ import { ContactComponent } from './contact/contact.component';
     AngularEditorModule,
     ReactiveFormsModule,
     AngularFireStorageModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatRippleModule,
+    PortalModule,
+    MatTabsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

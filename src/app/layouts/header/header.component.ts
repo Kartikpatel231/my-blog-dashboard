@@ -8,17 +8,19 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-userEmail:string;
-isLoggedIn$:Observable<boolean>
-  constructor(private authService:AuthService) { }
+  userEmail: string;
+  isLoggedIn$: Observable<boolean>;
+
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    this.userEmail=JSON.parse("null"+JSON.stringify('user')).email
-    this.userEmail=JSON.parse("null"+localStorage.getItem('user')).email
-    //this.userEmail=localStorage.getItem('user').email;
-    this.isLoggedIn$=this.authService.isLoggedIn();
+    const user = JSON.parse(localStorage.getItem('user'));
+    this.userEmail = user ? user.email : ''; // Set userEmail to user.email if user is not null
+
+    this.isLoggedIn$ = this.authService.isLoggedIn();
   }
- onLogout(){
- this.authService.logOut();
- }
+
+  onLogout() {
+    this.authService.logOut();
+  }
 }

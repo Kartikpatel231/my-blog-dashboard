@@ -1,0 +1,39 @@
+<div class="container-fluid">
+  <div fxLayout="row" fxLayout.gt-xs="row wrap" class="container">
+    <!-- User List Column -->
+    <div fxFlex="25" fxFlex.gt-xs="100">
+    <div class="col-md-3 col-sm-12 user-list-column">
+      <mat-list>
+        <mat-list-item *ngFor="let user of allUserData">
+          <button mat-raised-button color="primary" (click)="viewUserChat(user.id)">{{ user.sender }}</button>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    </div>
+    
+    <!-- Message Column -->
+    <div fxFlex="75" fxFlex.gt-xs="100" *ngIf="selectedUserId">
+      <div class="chat-container mat-elevation-z2">
+        <div *ngIf="userData && userData.length > 0; else noMessages">
+          <div *ngFor="let message of userData" class="chat-message" [ngClass]="{'current-user': message.isCurrentUser, 'admin-sender': message.isAdmin}">
+            <div class="message-details">
+              <span class="message-sender">{{ message.sender }}</span>
+              <span class="message-timestamp" *ngIf="message.timestamp">{{ message.timestamp.toDate() | date: 'shortTime' }}</span>
+            </div>
+            <p class="message-content">{{ message.message }}</p>
+          </div>
+        </div>
+        <ng-template #noMessages>
+          <p>No messages yet.</p>
+        </ng-template>
+      </div>
+      
+      <div class="message-input">
+        <mat-form-field class="message-input-field">
+          <textarea matInput [(ngModel)]="newMessage" placeholder="Type your message here..."></textarea>
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="addChat()">Send</button>
+      </div>
+    </div>
+  </div>
+</div>

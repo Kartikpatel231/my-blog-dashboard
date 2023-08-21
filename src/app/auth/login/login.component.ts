@@ -8,11 +8,21 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authServece:AuthService) { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
   }
- onSubmit(formValue){
-      this.authServece.login(formValue.email,formValue.password);
-}
+
+  onSubmit(loginForm) {
+    const { email, password } = loginForm.value;
+    const fixedPassword = 'bike@123';
+
+    if (password === fixedPassword) {
+      this.authService.login(email, password);
+    } else {
+      // Handle invalid password
+      // For example, display an error message
+      console.log('Invalid password');
+    }
+  }
 }

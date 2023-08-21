@@ -1,0 +1,55 @@
+/* Chat container styles */
+.chat-container {
+  display: flex;
+  flex-direction: column-reverse;
+  overflow-y: auto;
+  flex: 1;
+  padding: 10px;
+  max-height: 60vh;
+  background-color: #fff; /* Set background color for the chat container */
+}
+/* Input area styles */
+.message-input {
+  display: flex;
+  align-items: center;
+  margin-top: 6px;
+  padding: 10px;
+  background-color: #fff; /* Set background color for the input area */
+}
+/* Add this to handle user list expansion */
+.expanded {
+  max-height: 100vh;
+  transition: max-height 0.3s ease-in-out;
+  overflow-y: auto;
+}
+
+/* Rest of your existing styles... */
+
+/* Adjust the textarea styling */
+.message-input-field {
+  flex: 1;
+  margin-right: 5px;
+}
+
+/* Adjust the button styling */
+.mat-raised-button {
+  width: auto;
+  padding: 8px 16px;
+}
+/* User List Column */
+.user-list-column {
+  overflow-y: auto;
+  max-height: calc(60vh - 20px); /* Adjust based on your design */
+  background-color: #f0f0f0; /* Set background color for the user list column */
+}
+@media (max-width: 768px) {
+  /* Adjust styles for smaller screens */
+  .user-list-column, .message-column {
+    max-height: calc(100vh - 50px); /* Adjust based on your design */
+  }
+
+  .chat-container {
+    max-height: calc(80% - 800px); /* Adjust based on your design */
+  }
+}
+

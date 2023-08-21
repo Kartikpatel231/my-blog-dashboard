@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import"~bootstrap/dist/css/bootstrap.min.css";
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,500&display=swap');
 
@@ -51,3 +52,5 @@ input[type=text],input[type=email],input[type=password]{
     border: none;
     background-color: var(--primary-color);
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -15,9 +15,13 @@ export class ChatAppComponent implements OnInit {
   allUserIds: string[] = [];
   userData: ChatMessage[] = [];
   selectedUserId: string | null = null;
+  newMessage: string;
+  allUserData: ChatMessage[]=[];
 
   constructor(private authService: AuthService, private chatService: ChatServiceService) {}
-
+  selectUser(userId: string) {
+    this.selectedUserId = userId;
+  }
   ngOnInit(): void {
     this.authService.isLoggedIn().subscribe((loggedIn) => {
       if (loggedIn) {
@@ -25,11 +29,24 @@ export class ChatAppComponent implements OnInit {
           this.currentUser = user;
           this.chatService.getChatUserIds().subscribe((userIds: string[]) => {
             this.allUserIds = userIds;
+            userIds.forEach(userId => {
+              this.chatService.getSenderName(userId).subscribe((senderName: string) => {
+                this.allUserData.push({
+                  id: userId,
+                  sender: senderName,
+                  message: '',
+                  timestamp: null,
+                  admin: '',
+                  reply: ''
+                });
+              });
           });
+        });
         });
       } else {
         this.currentUser = null;
         this.allUserIds = [];
+        this.allUserData = [];
       }
     });
   }
@@ -45,7 +62,12 @@ export class ChatAppComponent implements OnInit {
     return this.currentUser ? sender === this.currentUser.displayName || sender === this.currentUser.email : false;
   }
 
-  addChat(newMessage: string, sender: string) {
-    // Add the logic to send a new chat message
+  addChat() {
+    if (this.newMessage && this.selectedUserId) {
+      const sender ='Admin';
+      const replyTo = this.userData.length > 0 ? this.userData[0].id : undefined;
+      this.chatService.addChat(this.newMessage, sender, this.selectedUserId, replyTo);
+      this.newMessage = ''; // Clear the input field after sending the message
+    }
   }
 }

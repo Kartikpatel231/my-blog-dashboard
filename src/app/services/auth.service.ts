@@ -71,4 +71,5 @@ export class AuthService {
   getLoggedInUserData(): Observable<firebase.User | null> {
     return this.asAuth.authState;
   }
+  
 }

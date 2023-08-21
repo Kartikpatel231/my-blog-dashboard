@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
+import * as firebase from 'firebase';
 import { Observable, combineLatest } from 'rxjs';
 import { map, distinct } from 'rxjs/operators';
 
@@ -54,6 +55,13 @@ export class ChatServiceService {
       distinct() // Get unique IDs
     );
   }
+ 
+  getSenderName(userId: string): Observable<string> {
+    // Fetch sender name from the first message of the user
+    return this.firestore.collection('messages').doc(userId).collection<ChatMessage>('userChat', ref => ref.limit(1)).valueChanges().pipe(
+      map(userData => userData.length > 0 ? userData[0].sender : 'Unknown')
+    );
+  }
 
   getUserData(userId: string): Observable<ChatMessage[]> {
     const parentCollection = this.firestore.collection<ChatMessage>('messages').doc(userId).collection<ChatMessage>('userChat');
@@ -64,5 +72,34 @@ export class ChatServiceService {
         return [...parentData, ...childData];
       })
     );
+  }
+  addChat(newMessage: string, sender: string, userId: string, replyTo?: string): Promise<void> {
+    const message: ChatMessage = {
+      sender: sender,
+      message: newMessage,
+      timestamp: firebase.firestore.Timestamp.now(),
+      admin: 'admin',
+      reply: replyTo || ''
+    };
+
+    if (replyTo) {
+      // Add a reply message to a specific user's chat
+      return this.firestore
+        .collection('messages')
+        .doc(userId)
+        .collection('userChat')
+        .add(message)
+        .then(() => console.log('Reply added successfully!'))
+        .catch((error) => console.error('Error adding reply:', error));
+    } else {
+      // Add a new message to a specific user's chat
+      return this.firestore
+        .collection('messages')
+        .doc(userId)
+        .collection('userChat')
+        .add(message)
+        .then(() => console.log('Message added successfully!'))
+        .catch((error) => console.error('Error adding message:', error));
+    }
   }
 }
